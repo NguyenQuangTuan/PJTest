@@ -3,8 +3,8 @@ underscore = require('underscore')
 
 var products = [
     {
-        "id": 123,
-        "shop_id": 345,
+        "id": 123, // productId -------ok
+        "shop_id": 345,// storeId ---------ok
         "title": "Iphone X",
         "description": "It's a smartphone",
         "options": [
@@ -21,9 +21,9 @@ var products = [
                 "url": "https://ae01.alicdn.com/kf/HTB1hOypSVXXXXXMapXXq6xXFXXXB/New-Arrival-DIY-3D-Magic-Machine-Printer-Enlighten-Painting-Draw-Kids-Developmental-Toy-Children-Kids-Gift.jpg_50x50.jpg"
             }
         ],
-        "item_info": {
+        "item_info": {// doi --ok
             "thumbnail": "https://ae01.alicdn.com/kf/HTB1hOypSVXXXXXMapXXq6xXFXXXB/New-Arrival-DIY-3D-Magic-Machine-Printer-Enlighten-Painting-Draw-Kids-Developmental-Toy-Children-Kids-Gift.jpg_50x50.jpg",
-            "tags": "iphone, ios, ten"
+            "tags": "iphone, ios, ten" //category --ok
         },
         "variants": [
             {
@@ -49,17 +49,34 @@ var products = [
                 "updated_at": 1525775291
             }
         ],
-        "created_at": 1525774426,
-        "updated_at": 1525774426
+        "created_at": 1525774426,// them -----ok
+        "updated_at": 1525774426// them----ok
     }
 ]
 
 arrayProduct = products
-for (i = 0; i < arrayProduct.length; i++) {
+for (i = 0; i < arrayProduct.length; i++) {      
     product = arrayProduct[i]
+    
+    product.thumbnail = product.item_info.thumbnail
+
+    product.itemInfo = product.item_info
+    product.category = product.item_info.tags
+    product.createdAt = product.created_at
+    product.updatedAt = product.updated_at    
+    product.productId = product.id
+    product.storeId = product.shop_id
+
+    // delete object
+    delete product.item_info
+    delete product.created_at
+    delete product.updated_at
+    delete product.id
+    delete product.shop_id    
+    
     test = []
     let optionArray = []
-    // let propropertieObj = {}
+    
     for (j = 0; j < product.options.length; j++) {
         let option = product.options[j]
         let name = option.name
@@ -69,27 +86,14 @@ for (i = 0; i < arrayProduct.length; i++) {
 
     for (k = 0; k < product.variants.length; k++) {
         variant = product.variants[k]
-
         test.push(variant.properties)
         propertiesObjKey = optionArray
         propertiesObjValue = variant.properties
         propertiesObj = underscore.object(propertiesObjKey, propertiesObjValue)
         variant.properties = propertiesObj
-        // let propropertieObj = underscore.object(underscore.map(optionArray, function (item) {
-        //     return [item, {}]
-        // }));
-        // console.log(propropertieObj)
-        // for(l=0; l<variant.properties.length;l++){
-
-        // }
-        console.log('')
-
-        //test = underscore.unzip(test, variant);
+        console.log('') 
 
     }
-    // propropertieObj = underscore.object(underscore.map(optionArray, function (item) {
-    //   return [item, {}] 
-    // }));
     console.log('')
     tests = underscore.unzip(test);
     for (i = 0; i < tests.length; i++) {
@@ -99,10 +103,14 @@ for (i = 0; i < arrayProduct.length; i++) {
         console.log('')
         tests[i] = arr
     }
-    console.log('')
+   
 
     optionArray = underscore.object(optionArray, tests);
+    optionArray = Object.keys(optionArray).map(option => {
+        return {[option]: optionArray[option]}
+    })
+    product.option = optionArray
     console.log('')
-    const x = Object.keys(optionArray).map(i => optionArray[i])
-    console.log('')
+    
+    
 }

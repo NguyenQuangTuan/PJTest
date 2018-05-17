@@ -1,21 +1,21 @@
-var arr = ['a', 'b', 'c']
-var obj = {}
-for (i=0; i<arr.length; i++){
-    obj(arr[i])
-}
-
-
-// var test = {
-//     abc: 123,
-//     'cba': {
-//         hik:123,
-//         'kih': 111
-//     }
+// var arr = ['a', 'b', 'c']
+// var obj = {}
+// for (i=0; i<arr.length; i++){
+//     obj(arr[i])
 // }
 
-// delete test.cba["kih"]
-// // delete test.cba['hik'];
-// console.log(test.ishas('abc'))
+
+var test = {
+    abc: 123,
+    'cba': {
+        hik:123,
+        'kih': 111
+    }
+}
+
+delete test.cba["kih"]
+delete test.cba;
+console.log(test.ishas('abc'))
 
 
 // var arr = [1,2,3,4,5]
