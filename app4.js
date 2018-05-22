@@ -9,7 +9,7 @@ var client = new elasticsearch.Client()
 
 client.ping({
     requestTimeout: 30000,
-}, function(error) {
+}, function (error) {
     if (error) {
         console.error('elasticsearch cluster is down!');
     } else {
@@ -17,33 +17,105 @@ client.ping({
     }
 });
 
-// Tao index
-client.indices.create({
-    index: 'products'
-}, function(err, resp, status) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log("create", resp);
+client.search({
+    index: 'shirts',
+    body: {
+        query: {
+            term: {
+                fabric: "cotton"
+            }
+        },
+        aggs: {
+            size: {
+                terms: {
+                    field: "size"
+                }
+            },
+            color: {
+                terms: {
+                    field: "color"
+                }
+            }
+        }
     }
-});
+
+}).then((res) => {
+    console.log(JSON.stringify(res, null, 2))
+})
+
+// client.create({
+//     index: "products-comment",
+//     type: "comment", 
+//     id: 5,
+//     body: {
+//         comment: 'abaksjfiodfj',
+//         ratingNumble: 3,
+//         productId: '1234',
+//         useId: '987654321',
+//         abc: 'asdfghjk'
+//     }
+//   }).then((res) => {
+//       console.log(res.result)
+//     // console.log(JSON.stringify(res,null,2))
+// })
+
+
+// client.search({
+//     index: 'shirts',
+//     body: {
+//         _source: true,
+//         // from: 0, size: 10,
+//         // sort: [{ ratingNumble: 'desc' }],
+//         query: {
+//             bool: {
+//                 must: {
+//                     match_all: {}
+//                 },
+//                 filter: [
+//                     {
+//                         term: { size: 'M' }
+//                     },
+//                     {
+//                         term: { color: 'red' }
+//                     }
+//                 ]
+//             }
+
+
+//         }
+//     }
+// }).then((res) => {
+//     console.log(JSON.stringify(res, null, 2))
+// })
+
+// Tao index
+// client.indices.create({
+//     index: 'ENDPOINT'
+// }, function(err, resp, status) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log("create", resp);
+//     }
+// });
 
 // Add product
 // client.index({
-//     index: 'order',
+//     index: 'product-comment',
 //     // id: '1',    // Neu k co thi elastic se tu sinh
-//     type: 'posts',
+//     type: 'comment',
 //     body: {
-//         "PostName": "789 Integrating Elasticsearch Into Your Node.js Application",
-//         "PostType": "Tutorial 456",
-//         "PostBody": "123 This is the text of our tutorial about using Elasticsearch in your Node.js application.",
-//         "abc":"def"
+
+//         "createdAt": Date.now(),
+//         "productId": 3,
+//         "comment": "aklsjkasdj",
+//         "rating": 8
 //     }
 // }, function(err, resp, status) {
-//     console.log(resp);
+//     console.log(JSON.stringify(resp, null, 2));
 // });
 
- 
+
 // client.search({
 //     index: 'order',
 //     // type: 'posts',

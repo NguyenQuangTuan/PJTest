@@ -74,43 +74,38 @@ for (i = 0; i < arrayProduct.length; i++) {
     delete product.id
     delete product.shop_id    
     
-    test = []
-    let optionArray = []
+    let listOption = []
+    let listOptionKey= []
+    let listOptionValue = []
+    let listProperty = []
+   
     
     for (j = 0; j < product.options.length; j++) {
         let option = product.options[j]
-        let name = option.name
-        optionArray.push(option.name)
+        listOptionKey.push(option.name)
     }
 
-
+    // modify variants.properties
     for (k = 0; k < product.variants.length; k++) {
-        variant = product.variants[k]
-        test.push(variant.properties)
-        propertiesObjKey = optionArray
-        propertiesObjValue = variant.properties
-        propertiesObj = underscore.object(propertiesObjKey, propertiesObjValue)
-        variant.properties = propertiesObj
-        console.log('') 
+        variant = product.variants[k]        
+        listProperty.push(variant.properties)
 
+        propertiesKey = listOptionKey
+        propertiesValue = variant.properties
+        variant.properties = underscore.object(propertiesKey, propertiesValue)
     }
-    console.log('')
-    tests = underscore.unzip(test);
-    for (i = 0; i < tests.length; i++) {
-        arr = tests[i]
+
+    // modify options
+    listOptionValue = underscore.unzip(listProperty);
+    for (i = 0; i < listOptionValue.length; i++) {
+        arr = listOptionValue[i]
         const removeDuplicateItems = arr => [...new Set(arr)];
-        arr = removeDuplicateItems(arr);
-        console.log('')
-        tests[i] = arr
+        listOptionValue[i] = removeDuplicateItems(arr);
     }
-   
 
-    optionArray = underscore.object(optionArray, tests);
-    optionArray = Object.keys(optionArray).map(option => {
-        return {[option]: optionArray[option]}
-    })
-    product.option = optionArray
-    console.log('')
-    
-    
+    listOption = underscore.object(listOptionKey, listOptionValue);
+    product.options = Object.keys(listOption).map(option => {
+        return {[option]: listOption[option]}
+    })   
+    // console.log(JSON.stringify(product,null,2))
 }
