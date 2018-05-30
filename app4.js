@@ -47,7 +47,44 @@ client.ping({
     console.log('Everything is ok');
   }
 });
+// update
+client.update({
+  index: 'shirts',
+  type: 'shirt',
+  id: 'pg8Yl2MBZPL_GyLYVa3a',
+  body: {
+    doc: {
+      size: 'L',
+      color: 'white'
+    },
+    upsert: {
+      color: 'white',
+    }
+  }
+}).then((res) => {
+  console.log(JSON.stringify(res))
+}, (err) => {
+  console.log(JSON.stringify(err))
+})
 
+////////////////////////////////////////////////////
+// Search String
+// client.search({
+//   index: 'shirts',
+//   body: {   
+//     query: {
+//       query_string: {
+//         query: 'elasticsearch'
+//       }
+//     }
+//   }
+// }).then((res) => {
+//   console.log(JSON.stringify(res))
+// },(err) => {
+//     console.log(JSON.stringify(err))
+//   })
+
+///////////////////////////////////////////////////////
 // Search Some Aggregation
 
 // client.search({
@@ -165,33 +202,33 @@ client.ping({
 // })
 
 
-client.search({
-    index: 'shirts',
-    body: {
-        _source: true,
-        // from: 0, size: 10,
-        // sort: [{ ratingNumble: 'desc' }],
-        query: {
-            bool: {
-                // must: {
-                //     match_all: {}
-                // },
-                filter: [
-                    {
-                        term: { 'size.keyword': 'S' }
-                    },
-                    {
-                        term: { "color.keyword": 'red' }
-                    }
-                ]
-            }
+// client.search({
+//     index: 'shirts',
+//     body: {
+//         _source: true,
+//         // from: 0, size: 10,
+//         // sort: [{ ratingNumble: 'desc' }],
+//         query: {
+//             bool: {
+//                 // must: {
+//                 //     match_all: {}
+//                 // },
+//                 filter: [
+//                     {
+//                         term: { 'size.keyword': 'S' }
+//                     },
+//                     {
+//                         term: { "color.keyword": 'red' }
+//                     }
+//                 ]
+//             }
 
 
-        }
-    }
-}).then((res) => {
-    console.log(JSON.stringify(res, null, 2))
-})
+//         }
+//     }
+// }).then((res) => {
+//     console.log(JSON.stringify(res, null, 2))
+// })
 
 // Tao index
 // client.indices.create({
