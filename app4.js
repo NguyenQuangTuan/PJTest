@@ -47,25 +47,45 @@ client.ping({
     console.log('Everything is ok');
   }
 });
+
+// query_string
+// client.search({
+//   index: 'shirts',
+//   // type: 'shirt',
+//   body: {
+//     query: {
+//       query_string: {
+//         query: "abc",
+//         default_field: "fabric"
+//       }      
+//     }
+//   }
+// }).then((res) => {
+//   console.log(JSON.stringify(res))
+// }, (err) => {
+//   console.log(JSON.stringify(err))
+// })
+
+////////////////////////////////////////////////
 // update
-client.update({
-  index: 'shirts',
-  type: 'shirt',
-  id: 'pg8Yl2MBZPL_GyLYVa3a',
-  body: {
-    doc: {
-      size: 'L',
-      color: 'white'
-    },
-    upsert: {
-      color: 'white',
-    }
-  }
-}).then((res) => {
-  console.log(JSON.stringify(res))
-}, (err) => {
-  console.log(JSON.stringify(err))
-})
+// client.update({
+//   index: 'shirts',
+//   type: 'shirt',
+//   id: 'pg8Yl2MBZPL_GyLYVa3a',
+//   body: {
+//     doc: {
+//       size: 'L',
+//       color: 'white'
+//     },
+//     upsert: {
+//       color: 'white',
+//     }
+//   }
+// }).then((res) => {
+//   console.log(JSON.stringify(res))
+// }, (err) => {
+//   console.log(JSON.stringify(err))
+// })
 
 ////////////////////////////////////////////////////
 // Search String
@@ -147,7 +167,7 @@ client.update({
 //         "name": "tshirt",
 //         "size": "S",
 //         "color": "red",
-//         "fabric": "cotton",
+//         "fabric": "cotton abc xyz",
 //         "price": 1000
 //     }
 // }).then((res) => {

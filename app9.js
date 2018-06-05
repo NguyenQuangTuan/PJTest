@@ -1,22 +1,35 @@
+
+var str = 'Twas the night before Xmas...';
+var newstr = str.replace(/xmas/i, 'Christmas');
+console.log(newstr);
+
+///////////////////////////////////
+// let i='1'
+// let x = Number(i)
+
+// console.log(x)
+
+
+////////////////////////////////////
 // var arr = ['a', 'b', 'c']
 // var obj = {}
 // for (i=0; i<arr.length; i++){
 //     obj(arr[i])
 // }
 
+////////////////////////////////////
+// var test = {
+//     abc: 123,
+//     'cba': {
+//         hik:123,
+//         'kih': 111
+//     }
+// }
 
-var test = {
-    abc: 123,
-    'cba': {
-        hik:123,
-        'kih': 111
-    }
-}
-
-delete test.cba["kih"]
-delete test.cba;
-console.log(test.ishas('abc'))
-
+// delete test.cba["kih"]
+// delete test.cba;
+// console.log(test.ishas('abc'))
+////////////////////////////
 
 // var arr = [1,2,3,4,5]
 
