@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken')
 var obj = {
-    myshopifyShopDomain: 'tuannq.com'
+    userId: 'rJQ6qEWJX'
 }
 var x = jwt.sign(obj, 'test')
 console.log(x)

@@ -36,7 +36,10 @@
 // }
 //**************************** */
 var elasticsearch = require('elasticsearch')
-var client = new elasticsearch.Client()
+var client = new elasticsearch.Client({
+  host: 'localhost:9200',
+  log: 'trace'
+})
 
 client.ping({
   requestTimeout: 30000,
@@ -69,17 +72,17 @@ client.ping({
 ////////////////////////////////////////////////
 // update
 // client.update({
-//   index: 'shirts',
-//   type: 'shirt',
-//   id: 'pg8Yl2MBZPL_GyLYVa3a',
+//   index: 'products',
+//   type: '_doc',
+//   id: '335182',
 //   body: {
 //     doc: {
-//       size: 'L',
-//       color: 'white'
+//       totalRating: 0,
+//       totalReview: 0
 //     },
-//     upsert: {
-//       color: 'white',
-//     }
+//     // upsert: {
+//     //   color: 'white',
+//     // }
 //   }
 // }).then((res) => {
 //   console.log(JSON.stringify(res))
@@ -161,7 +164,7 @@ client.ping({
 
 //////////////////////////////////////
 // client.index({
-//     index: 'shirts',
+//     index: 'stores',
 //     type: 'shirt',
 //     body: {
 //         "name": "tshirt",
@@ -174,6 +177,7 @@ client.ping({
 //     console.log(res.result)
 // })
 
+/////////////////////////////////////////
 // sear Aggregation
 // client.search({
 //   index: 'shirts',
@@ -205,21 +209,27 @@ client.ping({
 //   console.log(JSON.stringify(err, null, 2))
 // })
 
-// client.create({
-//     index: "shirts",
-//     type: "shirt", 
-//     id: 5,
-//     body: {
-//         comment: 'abaksjfiodfj',
-//         ratingNumble: 3,
-//         productId: '1234',
-//         useId: '987654321',
-//         abc: 'asdfghjk'
-//     }
-//   }).then((res) => {
-//       console.log(res.result)
-    // console.log(JSON.stringify(res,null,2))
-// })
+client.create({
+    index: "stores",
+    type: "_doc", 
+    id: 2847,
+    body: {
+      status: "S_ACTIVE",
+      locale: "chuaco",
+      updated_at: 1527680366,
+      shop_type: "SHOPIFY",
+      plan: "chuaco",
+      shop_owner: "Chua co",
+      id: 2847,
+      created_at: 1524201646,
+      shop_name: "get-deals-coupons-daily.myshopify.com",
+      primary_email: "chuaco@chuaco.com",
+      email: "chuaco@chuaco.com"
+    }
+  }).then((res) => {
+      console.log(res.result)
+    console.log(JSON.stringify(res,null,2))
+})
 
 
 // client.search({
