@@ -3,7 +3,7 @@ const async = require('async')
 
 var elasticsearch = require('elasticsearch')
 var client = new elasticsearch.Client({
-  host: '192.168.10.40:9200',
+  host: 'localhost:9200',
   log: 'trace'
 })
 
@@ -17,69 +17,129 @@ client.ping({
   }
 });
 
+// const newElasticsearch = require('elasticsearch')
+// const newClient = new newElasticsearch.Client({
+//   host: 'localhost:9200',
+//   log: 'trace'
+// })
+
+
 let products = []
 
-// add totalRating and totalReview 
-client.search({
-  index: 'products',
-  _source: true,
-  // q: '_JUacWMB4BYxaqFps3hV',
+////////////////////////////////
 
+client.update({
+  index: 'products',
+  type: '_doc',
+  id: 335371,
   body: {
-    from: 0 * 10,
-    size: 30,
-    query: {
-      match_all: {}
+    doc: {
+      store_id: 2847
     }
   }
 }).then((res) => {
-  products = res.hits.hits
-}).then(() => {
-
-  async.filter(products, (product) => {
-    // for (j = 0; j < products.length; j++) {
-    // product = products[j]
-    // for (i = 0; i < product._source.variants.length; i++) {
-    //   let variant = product._source.variants[i]
-
-
-    //   if (variant.price) {
-    //     variant.price = +parseFloat(variant.price).toFixed(2)
-    //   } else {
-    //     variant.price = 0
-    //   }
-
-    //   if (variant.compared_price) {
-    //     variant.compared_price = +parseFloat(variant.compared_price).toFixed(2)
-    //     // variant.compared_price = '15.00'
-    //   } else if (variant.comparedPrice) {
-    //     variant.compared_price = +parseFloat(variant.comparedPrice).toFixed(2)
-    //     // variant.compared_price = '15.00'
-    //     delete variant.comparedPrice
-    //   } else {
-    //     variant.compared_price = variant.price
-    //     // variant.compared_price = '15.00'
-    //   }
-    // }
-    client.update({
-      index: 'products',
-      type: '_doc',
-      id: product._id,
-      body: {
-        doc: {
-          totalRating: 0,
-          totalReview: 0
-        }
-      }
-    }).then((res) => {
-      console.log('---***---')
-    })
-    // }
-  }, (err, results) => {
-    if (err) console.log('ERR: ' + err)
-    else console.log('OK: ' + results)
-  })
+  console.log('ok')
 })
+
+
+/////////////////////////////////////////////////////
+// Chuyen DB
+// let index = 'products'
+// const parseDB = require('./parseDB')
+
+// client.search({
+//   index: 'products',
+//   _source: true,
+//   // q: 335169,
+
+//   body: {
+//     from: 0,
+//     size: 100,
+//     query: {
+//       match_all: {}
+//     }
+//   }
+// }).then((res) => {
+//   products = res.hits.hits
+// }).then(() => {
+
+
+  // async.each(products, (product, cb) => {
+  //   product._source = parseDB(product._source.doc)
+  //   client.index({
+  //     index: index,
+  //     type: '_doc',
+  //     id: product._id,
+  //     body: 
+  //     product._source
+  //     // {
+  //     //   doc: product._source
+  //     // }
+  //   }).then((res) => {
+  //     console.log('---------**--------')
+  //     cb()
+  //   }, (err) => {
+  //     cb(err)
+  //   })
+  // }, (err) => {
+  //   process.exit(1)
+  // })
+
+//   async.filter(products, (product) => {
+//     client.create({
+//       index: 'products_backup',
+//       type: '_doc',
+//       id: product._id,
+//       body: product._source
+//     }).then((res) => {
+//       console.log('---***---')
+//     })
+//     // }
+//   }, (err, results) => {
+//     if (err) console.log('ERR: ' + err)
+//     else console.log('OK: ' + results)
+//   })
+// })
+
+///////////////////////////////////////////////////////////
+// add totalRating and totalReview 
+// client.search({
+//   index: 'products',
+//   _source: true,
+//   // q: '_JUacWMB4BYxaqFps3hV',
+
+//   body: {
+//     from: 0,
+//     size: 100,
+//     query: {
+//       match_all: {}
+//     }
+//   }
+// }).then((res) => {
+//   products = res.hits.hits
+// }).then(() => {
+
+//   async.filter(products, (product) => {
+//     client.update({
+//       index: 'products',
+//       type: '_doc',
+//       id: product._id,
+//       body: {
+//         doc: {
+//           totalRating: 0,
+//           totalReview: 0,
+//           ratingAverage: 0,
+//         }
+//       }
+//     }).then((res) => {
+//       console.log('---***---')
+//     })
+//     // }
+//   }, (err, results) => {
+//     if (err) console.log('ERR: ' + err)
+//     else console.log('OK: ' + results)
+//   })
+// })
 
 /////////////////////////////
 // parse price

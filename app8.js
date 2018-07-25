@@ -1,13 +1,21 @@
 
-const x = {key : "123"}
-x.key = '456'
-x.key2 = '123'
-console.log('')
+let string = 'myshopify.com'
+let new_string = string.split('.')
+console.log(new_string)
+new_string.length = new_string.length - 2
+console.log(new_string)
+new_string = new_string.join('.')
+console.log(new_string)
+///////////////////////////////////////////////////////////
+// const x = {key : "123"}
+// x.key = '456'
+// x.key2 = '123'
+// console.log('')
 
-const y = 5;
-for(i=0;i<5;i++){
-    y = i
-}
+// const y = 5;
+// for(i=0;i<5;i++){
+//     y = i
+// }
 /////////////////////////////////////////////////
 // var async = require('async')
 

@@ -4,18 +4,25 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Tuan",
   "license": "ISC",
   "dependencies": {
     "assert": "^1.4.1",
     "async": "^2.6.1",
+    "continuation-local-storage": "^3.2.1",
+    "elasticdump": "^3.3.17",
     "elasticsearch": "^14.2.1",
     "htmlencode": "0.0.4",
     "jsonwebtoken": "^8.2.1",
     "mongoose": "^5.0.1",
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.38.0",
     "uid": "0.0.2",
     "underscore": "^1.9.0"
+  },
+  "devDependencies": {
+    "jest": "^23.3.0"
   }
 }

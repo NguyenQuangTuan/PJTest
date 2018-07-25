@@ -35,6 +35,56 @@
 //   }
 // }
 //**************************** */
+
+// {
+//   "settings": {
+//     "number_of_shards": 2,
+//     "number_of_replicas": 1,
+//     "index": {
+//       "analysis": {
+//         "analyzer": {
+//           "myCustomAnalyzer": {
+//             "type": "custom",
+//             "tokenizer": "myCustomTokenizer",
+//             "filter": ["myCustomFilter1", "myCustomFilter2"],
+//             "char_filter": ["myCustomCharFilter"]
+//           }
+//           },
+//         "tokenizer": {
+//           "myCustomTokenizer": {
+//           "type": "letter"
+//          }
+//         },
+//         "filter": {
+//           "myCustomFilter1": {
+//           "type": "lowercase"
+//           },
+//           "myCustomFilter2": {
+//            "type": "kstem"
+//           }
+//         },
+//         "char_filter": {
+//           "myCustomCharFilter": {
+//           "type": "mapping",
+//           "mappings": ["ph=>f", "u=>you"]
+//           }
+//         }
+//       }
+//     }
+//   },
+//   "mappings" : {
+//    "document" : {
+//      "properties" : {
+//        "description" : {
+//          "type" : "text",
+//          "analyzer" : "myCustomAnalyzer"
+//        }
+//      }
+//    }
+//  }
+// }
+
+/************************************ */
 var elasticsearch = require('elasticsearch')
 var client = new elasticsearch.Client({
   host: 'localhost:9200',
@@ -51,6 +101,63 @@ client.ping({
   }
 });
 
+
+// client.indices.create({
+//   index: 'test',
+//   mapping: {
+//     house: {
+//       name: {
+//         type: 'text'
+//       },
+//       title: {
+//         type: 'text'
+//       }
+//     }
+//   }
+// });
+
+
+///////////////////////////////
+// client.delete({
+//   index: 'stores',
+//   type: '_doc',
+//   id: 2789
+// }).then((res) => {
+//   console.log(JSON.stringify(res, null, 2))
+// })
+
+// client.create({
+//   index: 'stores',
+//   type: '_doc',
+//   id: 2881,
+//   body: {
+//     "id": 2880,
+//     "shop_name": "octopuff.myshopify.com",
+//     "primary_email": "",
+//     "email": "support@octopuff.co.uk",
+//     "rating_average": 0,
+//     "total_review": 0,
+//     "total_rating": 0,
+
+//   }
+// })
+
+client.update({
+  index: 'test',
+  type: '_doc',
+  id: 5,
+  body: {
+    doc: {
+      "title": 'Nguyen Quang Tuan',
+    }
+  }
+}).then((res) => {
+  console.log(JSON.stringify(res, null, 2))
+}, (err) => {
+  console.log(JSON.stringify(err, null, 2))
+})
+
+//////////////////////////////////////
 // query_string
 // client.search({
 //   index: 'shirts',
@@ -72,22 +179,21 @@ client.ping({
 ////////////////////////////////////////////////
 // update
 // client.update({
-//   index: 'products',
+//   index: 'stores',
 //   type: '_doc',
-//   id: '335182',
+//   id: 'abc123',
 //   body: {
 //     doc: {
-//       totalRating: 0,
-//       totalReview: 0
+//       asdfghj: 0
 //     },
 //     // upsert: {
 //     //   color: 'white',
 //     // }
 //   }
 // }).then((res) => {
-//   console.log(JSON.stringify(res))
+//   console.log(JSON.stringify(res, null, 2))
 // }, (err) => {
-//   console.log(JSON.stringify(err))
+//   console.log(JSON.stringify(err, null, 2))
 // })
 
 ////////////////////////////////////////////////////
@@ -164,10 +270,11 @@ client.ping({
 
 //////////////////////////////////////
 // client.index({
-//     index: 'stores',
-//     type: 'shirt',
+//     index: 'abc',
+//     type: '_doc',
+//     id: 'abc123',
 //     body: {
-//         "name": "tshirt",
+//         "name_ABC": "tshirt",
 //         "size": "S",
 //         "color": "red",
 //         "fabric": "cotton abc xyz",
@@ -180,25 +287,44 @@ client.ping({
 /////////////////////////////////////////
 // sear Aggregation
 // client.search({
-//   index: 'shirts',
+//   index: 'products',
 //   body: {
 
 //     "query": {
-//       "term": {
-//         "fabric": "cotton"
-//       }
+//       "match_all":{}
 //     },
 //     "aggs": {
-//       "size": {
-//         "terms": {
-//           "field": "size"
+
+//       "options": {
+//         "nested": {
+//           "path": "options",          
+//         },        
+//         aggs: {
+//           key: {
+
+//             terms: {
+//               field: "options.key",
+//               size: 100,
+//             },
+//             aggs: {
+//               value: {
+//                 terms: {
+//                   field: "options.value",
+//                   size: 100,
+//                 }
+//               }
+//             }
+//           }
 //         }
+//         // "terms": {
+//         //   "field": "size"
+//         // }
 //       },
-//       "color": {
-//         "terms": {
-//           "field": "color"
-//         }
-//       }
+//       // "color": {
+//       //   "terms": {
+//       //     "field": "color"
+//       //   }
+//       // }
 //     }
 
 //   }
@@ -208,28 +334,28 @@ client.ping({
 // }, (err) => {
 //   console.log(JSON.stringify(err, null, 2))
 // })
-
-client.create({
-    index: "stores",
-    type: "_doc", 
-    id: 2847,
-    body: {
-      status: "S_ACTIVE",
-      locale: "chuaco",
-      updated_at: 1527680366,
-      shop_type: "SHOPIFY",
-      plan: "chuaco",
-      shop_owner: "Chua co",
-      id: 2847,
-      created_at: 1524201646,
-      shop_name: "get-deals-coupons-daily.myshopify.com",
-      primary_email: "chuaco@chuaco.com",
-      email: "chuaco@chuaco.com"
-    }
-  }).then((res) => {
-      console.log(res.result)
-    console.log(JSON.stringify(res,null,2))
-})
+//////////////////////////////////////////
+// client.create({
+//   index: "stores",
+//   type: "_doc",
+//   id: 2823,
+//   body: {
+//     status: "S_ACTIVE",
+//     locale: "chuaco",
+//     updated_at: 1527681498,
+//     shop_type: "SHOPIFY",
+//     plan: "chuaco",
+//     shop_owner: "Chua co",
+//     id: 2823,
+//     created_at: 1524037227,
+//     shop_name: "radushoping.myshopify.com",
+//     primary_email: "chuaco@chuaco.com",
+//     email: "chuaco@chuaco.com"
+//   }
+// }).then((res) => {
+//   console.log(res.result)
+//   console.log(JSON.stringify(res, null, 2))
+// })
 
 
 // client.search({

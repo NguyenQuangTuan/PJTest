@@ -1,13 +1,17 @@
 
-var str = 'Twas the night before Xmas...';
-var newstr = str.replace(/xmas/i, 'Christmas');
-console.log(newstr);
+// console.log(Object.keys({}).length)
+
+///////////////////////////////////////////
+// var str = 'Twas the night before Xmas...';
+// var newstr = str.replace(/xmas/i, 'Christmas');
+// console.log(newstr);
 
 ///////////////////////////////////
-// let i='1'
-// let x = Number(i)
+let i='1 '
+let x = Number(i)
 
-// console.log(x)
+if (x) console.log(x)
+else console.log('err')
 
 
 ////////////////////////////////////
